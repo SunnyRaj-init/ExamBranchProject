@@ -53,6 +53,7 @@ const LoginForm = ({ settoken }) => {
       >
         <Button
           type="primary"
+          htmlType="submit"
           onClick={() => {
             Axios.post("http://localhost:3001/Login", {
               username: username,

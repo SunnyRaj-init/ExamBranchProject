@@ -589,7 +589,9 @@ const Reval = () => {
     if (clicked && render) {
       return <></>
     } else if (clicked) {
-      return <h1>Invalid Hallticket NO or No Supplementary entries</h1>
+      return (
+        <h1>Invalid Hallticket NO or No Revaluation entrie's fee on due</h1>
+      )
     }
   }
 

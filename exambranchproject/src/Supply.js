@@ -670,7 +670,9 @@ const Supply = () => {
     if (clicked && render) {
       return <></>
     } else if (clicked) {
-      return <h1>Invalid Hallticket NO or No Supplementary entries</h1>
+      return (
+        <h1>Invalid Hallticket NO or No Supplementary entrie's fee on due</h1>
+      )
     }
   }
 
