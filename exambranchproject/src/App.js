@@ -9,22 +9,29 @@ import Supply from "./Supply"
 import Reval from "./Reval"
 import LoginForm from "./Components/LoginForm"
 import NavBar from "./Components/NavBar"
+import { useState } from "react"
+import Download from "./Download"
+
 const App = () => {
+  const [token, settoken] = useState(false)
+  if (!token) {
+    return (
+      <>
+        <br />
+        <br />
+        <LoginForm settoken={settoken} />
+      </>
+    )
+  }
   return (
     <Router>
       <Switch>
         <Route exact path="/">
-          {/* <>
-            <NavBar value={'Home'} />
-            <Button type="primary">henlo</Button>
-            <Button type="ghost">henlo</Button>
-            <Button type="dashed">henlo</Button>
-            {/* <a href="./Supply.js">test</a> */}
-          <>
-            <br />
-            <br />
-            <LoginForm />
-          </>
+          <div className="Navbar">
+            <NavBar value={"Supply"} />
+            <style>{`@media print{.Navbar{display:none;}}`}</style>
+          </div>
+          <Supply />
         </Route>
         <Route exact path="/Supply">
           <div className="Navbar">
@@ -42,9 +49,20 @@ const App = () => {
         </Route>
         <Route exact path="/Update">
           <>
-            <br />
-            <br />
-            <LoginForm />
+            <div className="Navbar">
+              <NavBar value={"update"} />
+              <style>{`@media print{.Navbar{display:none;}}`}</style>
+            </div>
+            <h1>UPDATE</h1>
+          </>
+        </Route>
+        <Route exact path="/Download">
+          <>
+            <div className="Navbar">
+              <NavBar value={"Download"} />
+              <style>{`@media print{.Navbar{display:none;}}`}</style>
+            </div>
+            <Download />
           </>
         </Route>
         <Route>OOPs page not Found 404</Route>

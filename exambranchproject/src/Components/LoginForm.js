@@ -1,8 +1,12 @@
-import { Form, Input, Button, Checkbox } from 'antd'
-import 'antd/dist/antd.css'
-import { Link } from 'react-router-dom'
+import { Form, Input, Button, Alert } from "antd"
+import "antd/dist/antd.css"
+import Axios from "axios"
+import { useState } from "react"
 
-const LoginForm = () => {
+const LoginForm = ({ settoken }) => {
+  const [username, setusername] = useState("")
+  const [password, setpassword] = useState("")
+  const [wrong, setwrong] = useState(false)
   return (
     <Form
       name="basic"
@@ -13,37 +17,33 @@ const LoginForm = () => {
     >
       <Form.Item
         label="Username"
-        name="username"
         rules={[
           {
             required: true,
-            message: 'username empty',
+            message: "username empty",
           },
         ]}
       >
-        <Input />
+        <Input
+          onChange={(e) => {
+            setusername(e.target.value)
+          }}
+        />
       </Form.Item>
       <Form.Item
         label="Password"
-        name="password"
         rules={[
           {
             required: true,
-            message: 'password empty',
+            message: "password empty",
           },
         ]}
       >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        name="Checkboxer"
-        valuePropName="checked"
-        wrapperCol={{
-          offset: 11,
-          span: 16,
-        }}
-      >
-        <Checkbox>Remember me!</Checkbox>
+        <Input.Password
+          onChange={(e) => {
+            setpassword(e.target.value)
+          }}
+        />
       </Form.Item>
       <Form.Item
         wrapperCol={{
@@ -51,18 +51,37 @@ const LoginForm = () => {
           span: 16,
         }}
       >
-        <Button type="primary">Submit</Button>
-      </Form.Item>
-      <Form.Item
-        wrapperCol={{
-          offset: 11,
-          span: 16,
-        }}
-      >
-        <Button type="dashed">
-          <Link to="/Supply">Dummy</Link>
+        <Button
+          type="primary"
+          onClick={() => {
+            Axios.post("http://localhost:3001/Login", {
+              username: username,
+              password: password,
+            }).then((resp) => {
+              console.log(resp)
+              if (resp.data["goahead"]) {
+                settoken(true)
+                // window.location.replace("/Supply")
+              } else {
+                setwrong(true)
+              }
+            })
+          }}
+        >
+          Login
         </Button>
       </Form.Item>
+      {wrong && (
+        <Alert
+          description="Invalid Credentials."
+          type="warning"
+          showIcon
+          closable
+          onClose={() => {
+            setwrong(false)
+          }}
+        />
+      )}
     </Form>
   )
 }

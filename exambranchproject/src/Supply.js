@@ -12,7 +12,9 @@ const { Option } = Select
 
 const Supply = () => {
   const [rollno, setrollno] = useState("")
-  const [costs, setcosts] = useState("")
+  const [basecosts, setbasecosts] = useState("")
+  const [addcosts, setaddcosts] = useState("")
+  const [maxcosts, setmaxcosts] = useState("")
   // var rollno = ""
   const [clicked, setclick] = useState(false)
   const [render, setrender] = useState(false)
@@ -34,6 +36,7 @@ const Supply = () => {
   const [subsG, setsubsG] = useState([])
   const [subsH, setsubsH] = useState([])
   const [gen, setGen] = useState(false)
+  const [reg, setReg] = useState(false)
 
   const handleoptsA = (value) => {
     setsubsA(value)
@@ -111,6 +114,31 @@ const Supply = () => {
             >
               Print
             </Button>
+            <Button
+              type="default"
+              size="small"
+              onClick={() => {
+                Axios.post("http://localhost:3001/Registersupply", {
+                  rno: rollno,
+                  A: subsA,
+                  B: subsB,
+                  C: subsC,
+                  D: subsD,
+                  E: subsE,
+                  F: subsF,
+                  G: subsG,
+                  H: subsH,
+                }).then((resp) => {
+                  console.log(resp)
+                  if (resp.data["registered"]) {
+                    setReg(true)
+                    console.log("ohh")
+                  }
+                })
+              }}
+            >
+              Register
+            </Button>
           </Form.Item>
         </>
       )
@@ -118,7 +146,7 @@ const Supply = () => {
   }
 
   const getcost = (i) => {
-    let k = costs.split(" ")
+    let k = [basecosts, addcosts, maxcosts]
     // eslint-disable-next-line array-callback-return
     k = k.map((e) => {
       if (!isNaN(parseInt(e))) {
@@ -616,9 +644,17 @@ const Supply = () => {
     setrollno(e.target.value)
     console.log(e.target.value)
   }
-  const handlecosts = (e) => {
-    setcosts(e.target.value)
+  const handlebasecosts = (e) => {
+    setbasecosts(e.target.value)
     console.log(e.target.value, "costs")
+  }
+  const handleaddcosts = (e) => {
+    setaddcosts(e.target.value)
+    console.log(e.target.value, "addcosts")
+  }
+  const handlemaxcosts = (e) => {
+    setmaxcosts(e.target.value)
+    console.log(e.target.value, "maxcosts")
   }
   // const gait = (event) => {
   //   event.preventDefault()
@@ -657,19 +693,53 @@ const Supply = () => {
         <div className="costs">
           <style>{`@media print{.costs{display:none;}}`}</style>
           <Form.Item
-            label="Costs"
+            label="Base Cost"
             rules={[
               {
                 required: true,
-                message: "Please input the Supply fee in 900 200 1800 fashion!",
+                message: "Please input the Supply base cost!",
               },
             ]}
           >
             <Input
-              onChange={handlecosts}
+              onChange={handlebasecosts}
               disabled={clicked}
               size="small"
-              placeholder="Please input the Supply fee in 900 200 1800 fashion!"
+              placeholder="Please input the Supply base cost!"
+              style={{ width: "50%", marginRight: "4px" }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Additional Cost"
+            rules={[
+              {
+                required: true,
+                message: "Please input the Supply additional cost!",
+              },
+            ]}
+          >
+            <Input
+              onChange={handleaddcosts}
+              disabled={clicked}
+              size="small"
+              placeholder="Please input the Supply additional cost!"
+              style={{ width: "50%", marginRight: "4px" }}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Max Cost"
+            rules={[
+              {
+                required: true,
+                message: "Please input the Supply max cost!",
+              },
+            ]}
+          >
+            <Input
+              onChange={handlemaxcosts}
+              disabled={clicked}
+              size="small"
+              placeholder="Please input the Supply max cost!"
               style={{ width: "50%", marginRight: "4px" }}
             />
           </Form.Item>
@@ -732,14 +802,18 @@ const Supply = () => {
         autoComplete="off"
       >
         {clicked && render && gen && (
-          <h4>
-            Student Copy {rollno} {new Date().toLocaleString()}
-          </h4>
+          <>
+            <br />
+            <h4>
+              Student Copy {rollno} {new Date().toLocaleString()}
+            </h4>
+          </>
         )}
         {clicked && render && gen && rend11()}
         <div className="lbuttons">
           <style>{`@media print{.lbuttons{display:none;}}`}</style>
-          {clicked && render && rendlastbuttons()}
+          {gen && clicked && render && !reg && rendlastbuttons()}
+          {gen && clicked && render && reg && <h1>REGISTERED</h1>}
         </div>
       </Form>
     </>
