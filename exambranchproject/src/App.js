@@ -11,6 +11,7 @@ import LoginForm from "./Components/LoginForm"
 import NavBar from "./Components/NavBar"
 import { useState } from "react"
 import Download from "./Download"
+import Update from "./Update"
 
 const App = () => {
   const [token, settoken] = useState(false)
@@ -53,7 +54,7 @@ const App = () => {
               <NavBar value={"update"} />
               <style>{`@media print{.Navbar{display:none;}}`}</style>
             </div>
-            <h1>UPDATE</h1>
+            <Update />
           </>
         </Route>
         <Route exact path="/Download">

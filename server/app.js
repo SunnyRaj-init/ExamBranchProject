@@ -4,6 +4,8 @@ const cors = require("cors")
 const app = express()
 const fastcsv = require("fast-csv")
 const fs = require("fs")
+const csvtojson = require("csvtojson")
+const multer = require("multer")
 // const ws = fs.createWriteStream("bezkoder_mysql_fastcsv.csv");
 app.use(express.json())
 app.use(cors())
@@ -14,6 +16,102 @@ const db = mysql.createConnection({
   password: "root",
   database: "practice",
 })
+
+///updatee
+let fname = ""
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "C:\\Users\\Sunny Raj\\Desktop\\temp")
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  },
+})
+const upload = multer({ storage }).single("file")
+
+///Regularr
+app.post("/Storeregular", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(500).json(err)
+    }
+    fname = req.file.originalname
+    return res.status(200).send(req.file)
+  })
+})
+
+app.post("/Updateregular", (req, res) => {
+  // console.log(req.body)
+  const acyear = req.body.acyear
+  const sem = req.body.sem
+  const exyear = req.body.exyear
+  const exmonth = req.body.exmonth
+  csvtojson()
+    .fromFile(`C:\\Users\\Sunny Raj\\Desktop\\temp\\${fname}`)
+    .then((s) => {
+      // console.log(Object.keys(s[1], "SSS"))
+      let subcode = Object.keys(s[0])[1].split("-")[0]
+      let subname = Object.keys(s[0])[1].split("-")[1]
+      let grade = Object.keys(s[0])[1]
+      s.forEach((e) => {
+        // console.log(subcode, subname, grade, e["rollno"], e[grade])
+        db.query(
+          `insert into studentinfo(rollno,subcode,subname,grade,acyear,sem,exyear,exmonth) values("${e["rollno"]}","${subcode}","${subname}","${e[grade]}",${acyear},${sem},${exyear},${exmonth})`,
+          (err, result) => {
+            if (result) {
+              // res.send({ err: true })
+              console.log(result)
+            }
+          }
+        )
+      })
+    })
+  res.send({ done: true })
+})
+
+///////supply||Reval
+app.post("/Storesupply", (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      return res.status(500).json(err)
+    }
+    fname = req.file.originalname
+    return res.status(200).send(req.file)
+  })
+})
+
+app.post("/Updatesupply", (req, res) => {
+  // console.log(req.body)
+  const acyear = req.body.acyear
+  const sem = req.body.sem
+  const exyear = req.body.exyear
+  const exmonth = req.body.exmonth
+  csvtojson()
+    .fromFile(`C:\\Users\\Sunny Raj\\Desktop\\temp\\${fname}`)
+    .then((s) => {
+      // console.log(Object.keys(s[1], "SSS"))
+      let subcode = Object.keys(s[0])[1].split("-")[0]
+      let subname = Object.keys(s[0])[1].split("-")[1]
+      let grade = Object.keys(s[0])[1]
+      s.forEach((e) => {
+        // console.log(subcode, subname, grade, e["rollno"], e[grade])
+        db.query(
+          `update studentinfo set grade="${e[grade]}",exyear=${exyear}, exmonth=${exmonth} where rollno="${e["rollno"]}" and subcode="${subcode}"`,
+          (err, result) => {
+            if (result) {
+              // res.send({ err: true })
+              console.log(result)
+            }
+          }
+        )
+      })
+    })
+  res.send({ done: true })
+})
+
+//////////////////////////////////////////
+
+////supplyy
 
 app.post("/Registersupply", (req, res) => {
   const rno = req.body.rno

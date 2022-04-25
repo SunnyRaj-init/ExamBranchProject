@@ -25,7 +25,7 @@ const Download = () => {
   return (
     <>
       <Form
-        name="supple-enquiry"
+        name="download-enquiry"
         labelCol={{
           span: 4,
         }}
