@@ -37,6 +37,36 @@ const Supply = () => {
   const [subsH, setsubsH] = useState([])
   const [gen, setGen] = useState(false)
   const [reg, setReg] = useState(false)
+  const goBack = () => {
+    alert("REGISTERED")
+    setoptsA([])
+    setoptsB([])
+    setoptsC([])
+    setoptsD([])
+    setoptsE([])
+    setoptsF([])
+    setoptsG([])
+    setoptsH([])
+
+    setsubsA([])
+    setsubsB([])
+    setsubsC([])
+    setsubsD([])
+    setsubsE([])
+    setsubsF([])
+    setsubsG([])
+    setsubsH([])
+
+    setdata([])
+    setclick(false)
+    setGen(false)
+    setrender(false)
+    setReg(false)
+    // setrollno("")
+    // setcosts("")
+    // setMonth(0)
+    // setYear(0)
+  }
 
   const handleoptsA = (value) => {
     setsubsA(value)
@@ -678,146 +708,152 @@ const Supply = () => {
 
   return (
     <>
-      {/* <NavBar value={"Supply"} /> */}
-      <Form
-        name="supple-enquiry"
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        autoComplete="off"
-      >
-        <div className="costs">
-          <style>{`@media print{.costs{display:none;}}`}</style>
-          <Form.Item
-            label="Base Cost"
-            rules={[
-              {
-                required: true,
-                message: "Please input the Supply base cost!",
-              },
-            ]}
-          >
-            <Input
-              onChange={handlebasecosts}
-              disabled={clicked}
-              size="small"
-              placeholder="Please input the Supply base cost!"
-              style={{ width: "50%", marginRight: "4px" }}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Additional Cost"
-            rules={[
-              {
-                required: true,
-                message: "Please input the Supply additional cost!",
-              },
-            ]}
-          >
-            <Input
-              onChange={handleaddcosts}
-              disabled={clicked}
-              size="small"
-              placeholder="Please input the Supply additional cost!"
-              style={{ width: "50%", marginRight: "4px" }}
-            />
-          </Form.Item>
-          <Form.Item
-            label="Max Cost"
-            rules={[
-              {
-                required: true,
-                message: "Please input the Supply max cost!",
-              },
-            ]}
-          >
-            <Input
-              onChange={handlemaxcosts}
-              disabled={clicked}
-              size="small"
-              placeholder="Please input the Supply max cost!"
-              style={{ width: "50%", marginRight: "4px" }}
-            />
-          </Form.Item>
-        </div>
-        <Form.Item
-          label="Hall Ticket No"
-          rules={[
-            {
-              required: true,
-              message: "Please input the Hallticket No!",
-            },
-          ]}
+      <p style={{ color: "white" }}>
+        {/* <NavBar value={"Supply"} /> */}
+        <Form
+          name="supple-enquiry"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
         >
-          <Input
-            onChange={handlerollno}
-            disabled={clicked}
-            size="small"
-            style={{ width: "30%", marginRight: "4px" }}
-          />
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="small"
-            icon={<SearchOutlined />}
-            onClick={supplysearch}
-            disabled={clicked}
+          <div className="costs">
+            <style>{`@media print{.costs{display:none;}}`}</style>
+            <Form.Item
+              style={{ color: "white" }}
+              label="Base Cost"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter the Supply base cost!",
+                },
+              ]}
+            >
+              <Input
+                onChange={handlebasecosts}
+                disabled={clicked}
+                size="small"
+                placeholder="Please enter the Supply base cost!"
+                style={{ width: "50%", marginRight: "4px" }}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Additional Cost"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter the Supply additional cost!",
+                },
+              ]}
+            >
+              <Input
+                onChange={handleaddcosts}
+                disabled={clicked}
+                size="small"
+                placeholder="Please enter the Supply additional cost!"
+                style={{ width: "50%", marginRight: "4px" }}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Max Cost"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter the Supply max cost!",
+                },
+              ]}
+            >
+              <Input
+                onChange={handlemaxcosts}
+                disabled={clicked}
+                size="small"
+                placeholder="Please enter the Supply max cost!"
+                style={{ width: "50%", marginRight: "4px" }}
+              />
+            </Form.Item>
+          </div>
+          <Form.Item
+            label="Hall Ticket No"
+            rules={[
+              {
+                required: true,
+                message: "Please enter the Hallticket No!",
+              },
+            ]}
           >
-            Search
-          </Button>
-        </Form.Item>
-      </Form>
+            <Input
+              onChange={handlerollno}
+              disabled={clicked}
+              size="small"
+              style={{ width: "30%", marginRight: "4px" }}
+            />
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="small"
+              icon={<SearchOutlined />}
+              onClick={supplysearch}
+              disabled={clicked}
+            >
+              Search
+            </Button>
+          </Form.Item>
+        </Form>
 
-      {renderbait()}
-      <Form
-        name="supple-enquiry"
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        autoComplete="off"
-      >
-        {clicked && render && rend11()}
-      </Form>
-      <Form
-        name="supple-enquiry"
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        autoComplete="off"
-      >
-        {clicked && render && gen && (
-          <>
-            <br />
-            <h4>
-              Student Copy {rollno} {new Date().toLocaleString()}
-            </h4>
-          </>
-        )}
-        {clicked && render && gen && rend11()}
-        <div className="lbuttons">
-          <style>{`@media print{.lbuttons{display:none;}}`}</style>
-          {gen && clicked && render && !reg && rendlastbuttons()}
-          {gen && clicked && render && reg && <h1>REGISTERED</h1>}
-        </div>
-      </Form>
+        {renderbait()}
+        <Form
+          name="supple-enquiry"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+        >
+          {clicked && render && rend11()}
+        </Form>
+        <Form
+          name="supple-enquiry"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 16,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+        >
+          {clicked && render && gen && (
+            <>
+              <br />
+              <br />
+              <br />
+              <h4>
+                Student Copy {rollno} {new Date().toLocaleString()}
+              </h4>
+            </>
+          )}
+
+          {clicked && render && gen && rend11()}
+          <div className="lbuttons">
+            <style>{`@media print{.lbuttons{display:none;}}`}</style>
+            {gen && clicked && render && !reg && rendlastbuttons()}
+            {gen && clicked && render && reg && goBack()}
+          </div>
+        </Form>
+      </p>
     </>
   )
 }

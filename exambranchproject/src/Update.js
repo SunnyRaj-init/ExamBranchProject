@@ -7,7 +7,8 @@ const { Option } = Select
 // import { UploadOutlined } from "@ant-design/icons"
 
 const Update = () => {
-  const [file, setfile] = useState(null)
+  // const [file, setfile] = useState(null)
+  const [loc, setloc] = useState("")
   const [clicked, setclicked] = useState(false)
   const [task, settask] = useState(false)
   const [year, setyear] = useState(0)
@@ -15,6 +16,11 @@ const Update = () => {
   const [table, settable] = useState("")
   const [exyear, setexyear] = useState(0)
   const [exmonth, setexmonth] = useState(0)
+
+  const goback = () => {
+    setclicked(false)
+    settask(false)
+  }
 
   const handletable = (value) => {
     settable(value)
@@ -25,30 +31,32 @@ const Update = () => {
   const handlesems = (value) => {
     setsem(value)
   }
-  const store = () => {
-    if (file !== null) {
-      const data = new FormData()
-      data.append("file", file)
-      Axios.post(`http://localhost:3001/Store${table}`, data)
-        .then((e) => {
-          console.log("success")
-          setclicked(true)
-        })
-        .catch((e) => {
-          console.error(e, "error")
-        })
-    }
-  }
+  // const store = () => {
+  //   if (file !== null) {
+  //     const data = new FormData()
+  //     data.append("file", file)
+  //     Axios.post(`http://localhost:3001/Store${table}`, data)
+  //       .then((e) => {
+  //         console.log("success")
+  //         setclicked(true)
+  //       })
+  //       .catch((e) => {
+  //         console.error(e, "error")
+  //       })
+  //   }
+  // }
   const upload = () => {
+    settask(true)
     Axios.post(`http://localhost:3001/Update${table}`, {
       acyear: year,
       sem: sem,
       exyear: exyear,
       exmonth: exmonth,
+      loc: loc,
     }).then((resp) => {
       if (resp.data["done"]) {
         alert("Updated")
-        settask(true)
+        goback()
       }
     })
   }
@@ -68,7 +76,7 @@ const Update = () => {
         autoComplete="off"
       >
         <Form.Item
-          label="select year"
+          label="Select year"
           rules={[
             {
               required: false,
@@ -93,7 +101,7 @@ const Update = () => {
           </Select>
         </Form.Item>
         <Form.Item
-          label="select semester"
+          label="Select semester"
           rules={[
             {
               required: false,
@@ -114,7 +122,7 @@ const Update = () => {
         </Form.Item>
 
         <Form.Item
-          label="select type"
+          label="Select type"
           rules={[
             {
               required: false,
@@ -132,11 +140,12 @@ const Update = () => {
             {[
               <Option key={"regular"}>Regular</Option>,
               <Option key={"supply"}>Supplementary or Reval</Option>,
+              <Option key={"cbt"}>CBT</Option>,
             ]}
           </Select>
         </Form.Item>
         <Form.Item
-          label="Input exam year"
+          label="Enter exam year"
           rules={[
             {
               required: false,
@@ -145,7 +154,7 @@ const Update = () => {
           ]}
         >
           <Input
-            placeholder="Please input exam year"
+            placeholder="Please enter exam year"
             style={{ width: "45%", marginRight: "1%" }}
             disabled={clicked}
             onChange={(e) => {
@@ -157,8 +166,9 @@ const Update = () => {
             }}
           />
         </Form.Item>
+
         <Form.Item
-          label="Input exam month"
+          label="Enter exam month"
           rules={[
             {
               required: false,
@@ -167,7 +177,7 @@ const Update = () => {
           ]}
         >
           <Input
-            placeholder="Please input exam month"
+            placeholder="Please enter exam month"
             style={{ width: "45%", marginRight: "1%" }}
             disabled={clicked}
             onChange={(e) => {
@@ -190,6 +200,7 @@ const Update = () => {
           exmonth !== 0 && (
             <>
               <Form.Item
+                label="Folder location"
                 rules={[
                   {
                     required: false,
@@ -197,7 +208,7 @@ const Update = () => {
                   },
                 ]}
               >
-                <Input
+                {/* <Input
                   type={"file"}
                   onChange={(e) => {
                     setfile(e.target.files[0])
@@ -207,6 +218,15 @@ const Update = () => {
                     width: "45%",
                     marginRight: "1%",
                     marginLeft: "25%",
+                  }}
+                /> */}
+                <Input
+                  placeholder="Please give folder location"
+                  style={{ width: "45%", marginRight: "1%" }}
+                  // disabled={clicked}
+                  onChange={(e) => {
+                    setloc(e.target.value)
+                    console.log(loc)
                   }}
                 />
               </Form.Item>
@@ -218,18 +238,15 @@ const Update = () => {
                   },
                 ]}
               >
-                <Button
-                  type="dashed"
-                  onClick={store}
-                  disabled={clicked}
-                  style={{ marginLeft: "40%" }}
-                >
-                  upload
-                </Button>
+                {!task && (
+                  <Button type="primary" onClick={upload}>
+                    Update Database
+                  </Button>
+                )}
               </Form.Item>
             </>
           )}
-        {clicked && !task && (
+        {/* {clicked && !task && (
           <Form.Item
             rules={[
               {
@@ -242,7 +259,7 @@ const Update = () => {
               Update Database
             </Button>
           </Form.Item>
-        )}
+        )} */}
       </Form>
     </>
   )

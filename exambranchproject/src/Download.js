@@ -56,12 +56,37 @@ const Download = () => {
             {[
               <Option key={"Downloadsupply"}>Supply</Option>,
               <Option key={"Downloadreval"}>Reval</Option>,
+              <Option key={"Downloadcbt"}>Cbt</Option>,
             ]}
           </Select>
         </Form.Item>
 
         {table !== "" && (
           <>
+            <Form.Item
+              label="Truncate"
+              rules={[
+                {
+                  required: false,
+                  message: "Choose",
+                },
+              ]}
+            >
+              <Button
+                onClick={() => {
+                  Axios.post(`http://localhost:3001/Trunc${table}`).then(
+                    (resp) => {
+                      if (resp.data.ans || resp.data.del) {
+                        alert("Entries Truncated")
+                        setclicked(false)
+                      }
+                    }
+                  )
+                }}
+              >
+                Clear {table}
+              </Button>
+            </Form.Item>
             <Form.Item
               label="select year"
               rules={[
@@ -118,7 +143,7 @@ const Download = () => {
           ]}
           wrapperCol={{ offset: 4, span: 16 }}
         >
-          {year !== 0 && sem !== 0 && !clicked && (
+          {year !== 0 && sem !== 0 && !clicked && table !== "" && (
             <Button
               type="link"
               onClick={() => {

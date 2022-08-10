@@ -38,6 +38,37 @@ const Reval = () => {
   const [subsH, setsubsH] = useState([])
   const [gen, setGen] = useState(false)
 
+  const goBack = () => {
+    alert("REGISTERED")
+    setoptsA([])
+    setoptsB([])
+    setoptsC([])
+    setoptsD([])
+    setoptsE([])
+    setoptsF([])
+    setoptsG([])
+    setoptsH([])
+
+    setsubsA([])
+    setsubsB([])
+    setsubsC([])
+    setsubsD([])
+    setsubsE([])
+    setsubsF([])
+    setsubsG([])
+    setsubsH([])
+
+    setdata([])
+    setclick(false)
+    setGen(false)
+    setrender(false)
+    setreg(false)
+    // setrollno("")
+    // setcosts("")
+    // setMonth(0)
+    // setYear(0)
+  }
+
   const handleoptsA = (value) => {
     setsubsA(value)
     console.log(`${typeof value} ${value}`)
@@ -118,7 +149,7 @@ const Reval = () => {
               type="default"
               size="small"
               onClick={() => {
-                Axios.post("http://localhost:3001/Registerreval", {
+                Axios.post("http://192.168.11.128:3001/Registerreval", {
                   rno: rollno,
                   A: subsA,
                   B: subsB,
@@ -537,7 +568,7 @@ const Reval = () => {
     e.preventDefault()
     if (rollno !== "") {
       setclick(true)
-      Axios.post("http://localhost:3001/Revalsearch", {
+      Axios.post("http://192.168.11.128:3001/Revalsearch", {
         rno: rollno,
         exmonth: month,
         exyear: year,
@@ -601,7 +632,7 @@ const Reval = () => {
       <Form
         name="supple-enquiry"
         labelCol={{
-          span: 4,
+          span: 8,
         }}
         wrapperCol={{
           span: 16,
@@ -626,16 +657,16 @@ const Reval = () => {
               onChange={handlecosts}
               disabled={clicked}
               size="small"
-              placeholder="Please input the Revaluation fee!"
+              placeholder="Please enter the Revaluation fee!"
               style={{ width: "50%", marginRight: "4px" }}
             />
           </Form.Item>
           <Form.Item
-            label="exmonth"
+            label="Exam month"
             rules={[
               {
                 required: true,
-                message: "Please input the exam month!",
+                message: "Please enter the exam month!",
               },
             ]}
           >
@@ -643,16 +674,16 @@ const Reval = () => {
               onChange={handlemonth}
               disabled={clicked}
               size="small"
-              placeholder="Please input the exam month!"
+              placeholder="Please enter the exam month!"
               style={{ width: "50%", marginRight: "4px" }}
             />
           </Form.Item>
           <Form.Item
-            label="exyear"
+            label="Exam year"
             rules={[
               {
                 required: true,
-                message: "Please input the exam year!",
+                message: "Please enter the exam year!",
               },
             ]}
           >
@@ -660,7 +691,7 @@ const Reval = () => {
               onChange={handleyear}
               disabled={clicked}
               size="small"
-              placeholder="Please input the exam year!"
+              placeholder="Please enter the exam year!"
               style={{ width: "50%", marginRight: "4px" }}
             />
           </Form.Item>
@@ -670,7 +701,7 @@ const Reval = () => {
           rules={[
             {
               required: true,
-              message: "Please input the Hallticket No!",
+              message: "Please enter the Hallticket No!",
             },
           ]}
         >
@@ -697,7 +728,7 @@ const Reval = () => {
       <Form
         name="supple-enquiry"
         labelCol={{
-          span: 4,
+          span: 8,
         }}
         wrapperCol={{
           span: 16,
@@ -712,7 +743,7 @@ const Reval = () => {
       <Form
         name="supple-enquiry"
         labelCol={{
-          span: 4,
+          span: 8,
         }}
         wrapperCol={{
           span: 16,
@@ -725,6 +756,8 @@ const Reval = () => {
         {clicked && render && gen && (
           <>
             <br />
+            <br />
+            <br />
             <h4>
               Student Copy {rollno} {new Date().toLocaleString()}
             </h4>
@@ -734,7 +767,7 @@ const Reval = () => {
         <div className="lbuttons">
           <style>{`@media print{.lbuttons{display:none;}}`}</style>
           {gen && clicked && render && !reg && rendlastbuttons()}
-          {gen && clicked && render && reg && <h1>REGISTERED</h1>}
+          {gen && clicked && render && reg && goBack()}
         </div>
       </Form>
     </>

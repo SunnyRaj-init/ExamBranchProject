@@ -32,6 +32,7 @@ const LoginForm = ({ settoken }) => {
       </Form.Item>
       <Form.Item
         label="Password"
+        // style={{ fontSize: "16px" }}
         rules={[
           {
             required: true,
